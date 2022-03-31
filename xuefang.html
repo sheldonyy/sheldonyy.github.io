@@ -22,7 +22,7 @@ h1{
   padding: 0 20px;
 }
 h1 span{
-    font-size:20px;
+    font-size:30px;
 }
 </style>
 
@@ -126,8 +126,9 @@ window.addEventListener("resize", onResize);
 requestAnimationFrame(render);
 
 window.onload=function starttime(){
-        time(h1,'2022,3,20');     // 在一起的时间
+        time(h1,'2022,3,20 17:36');     // 在一起的时间
         ptimer = setTimeout(starttime,1000); // 添加计时器
+        
 }
 
     function time(obj,futimg){
@@ -141,10 +142,11 @@ window.onload=function starttime(){
         var second = parseInt(time%60);  // 以60秒为一整份 取余 剩下秒数
 //              console.log(hour+":"+minute+":"+second)
 //              alert(hour)
-        obj.innerHTML="亲爱的<br>咱俩在一起的时间已经：<br>"+day+"天"+hour+"小时"+minute+"分"+second+"秒"+"了<br><span>一时间不知道从哪说起,真爱来了，我们要好好把握。<br>不管面临多大的压力,不管前面的路如何崎岖.<br>不管经历过什么,我仍坚信最浪漫的事就是和你一起慢慢变老.<br>相信中间的计时器,将永远继续下去,直至数据溢出.</span>"
+        obj.innerHTML="亲爱的<br>我们相识已经：<br>"+day+"天"+hour+"小时"+minute+"分"+second+"秒"+"了<br><span>一言相识，仿若倾心已久;<br>但凡交谈，已默默相惜;</span>"
 
         return true;
     }
+    console.log('我们相识于2022年3月20日 17点36分')
 </script>
 
 </body>
