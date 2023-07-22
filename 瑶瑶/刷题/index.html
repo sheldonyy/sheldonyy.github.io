@@ -7,16 +7,26 @@
     <script src="data.js"></script>
     <style>
       .right {
-        color: #22a8f1;
+        color: red;
+        font-weight: 700;
       }
-      h3 {
-        margin: 8px 6px;
+      .title-one {
+        margin: 2px 2px;
+        font-weight: 800;
+        font-size: 18px;
       }
-      h4 {
-        margin: 0;
+      .title-two {
+        margin: 2px 0 0;
+        font-weight: 800;
+        font-size: 16px;
+      }
+      .topic {
+        font-weight: 800;
+        font-size: 14px;
       }
       p {
         margin: 2px 0;
+        font-size: 12px;
       }
     </style>
   </head>
@@ -49,7 +59,9 @@
           return (
             pre +
             `
-                      <h4>${th}:${tg}(${txType[lectureId]})</h4>
+                      <div class="topic">${th}:${tg}(${
+              txType[lectureId]
+            }:${ca})</div>
                       ${lectureId === 3 ? panduanstr : slectstr}
                       `
           );
@@ -64,7 +76,7 @@
             pre +
             `
                     <hr/>
-                    <h3>${name}</h3>
+                    <div class="title-one">${name}</div>
                     <p>${getChildStr(child)}</p>
                     `
           );
@@ -75,7 +87,7 @@
             return (
               subpre +
               `
-                    <h4>${subName}</h4>
+                    <div class="title-two">${subName}</div>
                     <p>${getChildStr(subChild)}</p>
             `
             );
@@ -84,7 +96,7 @@
             pre +
             `
                       <hr/>
-                    <h3>${name}</h3>
+                    <div class="title-one">${name}</div>
                     ${child}
                       `
           );
