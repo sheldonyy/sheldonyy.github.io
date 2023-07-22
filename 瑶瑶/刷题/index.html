@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="data.js"></script>
+    <style>
+      .right {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="data"></div>
+    <script>
+      const txType = {
+        1: "单选",
+        2: "多选",
+        3: "判断",
+      };
+
+      const getChildStr = (childList = []) => {
+        return childList.reduce((pre, item) => {
+          const { tg, ca, th, os = [], lectureId } = item;
+          // 选择题
+          const slectstr = os.reduce((ospre, ositem) => {
+            return (
+              ospre +
+              `<p class="${ca.includes(ositem.k) ? "right" : "wrong"}">${
+                ositem.k
+              }:${ositem.v}</p>`
+            );
+          }, "");
+          const panduanstr = `
+            <p class="${ca === "正确" ? "right" : "wrong"}">正确</p>
+            <p class="${ca === "错误" ? "right" : "wrong"}">错误</p>
+            `;
+
+          return (
+            pre +
+            `
+                      <br/>
+                      <h4>${th}:${tg}(${txType[lectureId]})</h4>
+                      ${lectureId === 3 ? panduanstr : slectstr}
+                      `
+          );
+        }, "");
+      };
+
+      document.querySelector("#data").innerHTML = data.reduce((pre, item) => {
+        const { subCategoryVO, child, name } = item;
+        // 无子集
+        if (!subCategoryVO) {
+          return (
+            pre +
+            `
+                    <hr/>
+                    <h1>${name}</h1>
+                    <p>${getChildStr(child)}</p>
+                    `
+          );
+        } else {
+          // 有子集
+          const child = subCategoryVO.reduce((subpre, subItem) => {
+            const { name: subName, child: subChild } = subItem;
+            return (
+              subpre +
+              `
+            <br/>
+                    <h3>${subName}</h3>
+                    <p>${getChildStr(subChild)}</p>
+            `
+            );
+          }, "");
+          return (
+            pre +
+            `
+                      <hr/>
+                    <h1>${name}</h1>
+                    ${child}
+                      `
+          );
+        }
+      }, "");
+    </script>
+  </body>
+</html>
