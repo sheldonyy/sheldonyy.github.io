@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <style>
+      /* 参考文档
+      https://mp.weixin.qq.com/s?__biz=MjM5MTA1MjAxMQ==&mid=2651256780&idx=1&sn=3068af8cd94b83b4303f3aa302db9a9e&chksm=bd492e488a3ea75e7df34ab11723026a262d4fa3b5aa6043fb0f787dbc020a1d9666f7c28728&scene=27
+      */
+      ul {
+        width: 500px;
+        height: 200px;
+        border: 1px solid #000;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        overflow-y: scroll;
+      }
+      li {
+        background-color: skyblue;
+        height: 20px;
+        margin: 5px 0;
+      }
+      .cover {
+        height: 5px;
+        background-color: #ffffff;
+        margin-bottom: -5px;
+        z-index: 2;
+        position: relative;
+      }
+      .shadow {
+        background-color: red;
+        height: 5px;
+        position: sticky;
+        bottom: 0;
+        z-index: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <ul>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <!-- 盖子 -->
+      <div class="cover"></div>
+      <!-- 阴影 -->
+      <div class="shadow"></div>
+    </ul>
+  </body>
+</html>
