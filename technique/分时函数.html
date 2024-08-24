@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>intersrction Observer</title>
+    <style>
+      .container {
+        width: 60vw;
+        height: 50vh;
+        background-color: #ccc;
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        transform: translate3d(-50%, -50%, 0);
+        overflow-y: scroll;
+        text-align: center;
+      }
+
+      .item {
+        width: 50%;
+        margin: 0 auto;
+      }
+
+      .top {
+        height: 100%;
+        background-color: skyblue;
+      }
+
+      .box {
+        height: 120px;
+        border: 1px solid red;
+        background-color: #fff;
+      }
+
+      .bottom {
+        height: 100%;
+        background-color: #382e2e;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="item top"></div>
+      <div class="item box">元素</div>
+      <div class="item bottom"></div>
+    </div>
+    <script>
+      // 根元素与目标元素有交集时触发回调函数
+      // rootMargin 根元素的边距
+      // threshold 触发回调函数的阈值
+      // root 根元素
+      // rootMargin 根元素的边距
+      // threshold 触发回调函数的阈值
+
+      // 曝光
+      const box = document.querySelector(".box");
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((item) => {
+            const element = item.target;
+            if (item.isIntersecting) {
+              element.innerHTML = "曝光";
+
+              // 取消监听
+              io.unobserve(element);
+            }
+          });
+        },
+        {
+          threshold: [0, 0.5], // 触发回调函数的阈值
+          root: document.querySelector(".container"), // 根元素
+          rootMargin: "10px 10px 20px 40px", // 根元素的边距
+        }
+      );
+      io.observe(box);
+    </script>
+  </body>
+</html>
