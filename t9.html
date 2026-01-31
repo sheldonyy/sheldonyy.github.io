@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>工程密码生成器</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            max-width: 800px;
+            width: 100%;
+        }
+        
+        h1 {
+            color: #1a2980;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.2rem;
+            font-weight: 700;
+        }
+        
+        .current-date {
+            text-align: center;
+            font-size: 1.8rem;
+            color: #26d0ce;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .password-display {
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            color: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .password-label {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+        
+        .password-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .calculation {
+            background-color: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 5px solid #26d0ce;
+        }
+        
+        .calculation h3 {
+            color: #1a2980;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .calculation-content {
+            font-size: 1.4rem;
+            font-family: 'Courier New', monospace;
+            color: #333;
+            text-align: center;
+        }
+        
+        .password-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .password-table th {
+            background-color: #1a2980;
+            color: white;
+            padding: 15px;
+            font-weight: 600;
+        }
+        
+        .password-table td {
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .password-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        .password-table tr:hover {
+            background-color: #e9f7fe;
+        }
+        
+        .current-row {
+            background-color: #d4edda !important;
+            font-weight: bold;
+            color: #155724;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .copy-btn {
+            background-color: #26d0ce;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .copy-btn:hover {
+            background-color: #1a9b9a;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(38, 208, 206, 0.3);
+        }
+        
+        .copy-btn i {
+            font-size: 1.2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 25px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .password-value {
+                font-size: 2rem;
+            }
+            
+            .password-table th, .password-table td {
+                padding: 10px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>工程密码生成器</h1>
+        
+        <div class="current-date" id="currentDate">
+            正在获取当前日期...
+        </div>
+        
+        <div class="password-display">
+            <div class="password-label">今日工程密码</div>
+            <div class="password-value" id="finalPassword">---</div>
+            <button class="copy-btn" id="copyBtn">
+                <i class="fas fa-copy"></i> 复制密码
+            </button>
+        </div>
+        
+        <div class="calculation">
+            <h3>计算过程</h3>
+            <div class="calculation-content" id="calculation">
+                等待计算...
+            </div>
+        </div>
+        
+        <table class="password-table">
+            <thead>
+                <tr>
+                    <th>日期尾数</th>
+                    <th>对应密码</th>
+                </tr>
+            </thead>
+            <tbody id="passwordTable">
+                <!-- 表格内容将由JavaScript生成 -->
+            </tbody>
+        </table>
+        
+        <div class="footer">
+            根据当日日期最后一位数字查找对应密码，然后相加得到工程密码
+        </div>
+    </div>
+
+    <script>
+        // 密码对照表
+        const passwordMap = {
+            0: "213518",
+            1: "658035",
+            2: "235657",
+            3: "567534",
+            4: "647825",
+            5: "234700",
+            6: "127347",
+            7: "648924",
+            8: "733782",
+            9: "553456"
+        };
+        
+        // 获取当前日期并格式化为YYMMDD
+        function getFormattedDate() {
+            const now = new Date();
+            const year = now.getFullYear().toString().slice(-2); // 获取后两位年份
+            const month = (now.getMonth() + 1).toString().padStart(2, '0');
+            const day = now.getDate().toString().padStart(2, '0');
+            return year + month + day;
+        }
+        
+        // 数字相加函数（处理六位数相加可能出现的进位）
+        function addSixDigitNumbers(num1, num2) {
+            // 将字符串转换为数字，相加，然后转换为六位字符串
+            let sum = parseInt(num1) + parseInt(num2);
+            
+            // 如果结果超过六位数，取后六位
+            let result = sum.toString();
+            if (result.length > 6) {
+                result = result.slice(-6);
+            }
+            
+            // 确保结果是六位数（前面补零）
+            return result.padStart(6, '0');
+        }
+        
+        // 生成并显示密码
+        function generatePassword() {
+            const dateStr = getFormattedDate();
+            const lastDigit = dateStr.slice(-1);
+            const mappedPassword = passwordMap[lastDigit];
+            
+            // 计算最终密码
+            const finalPassword = addSixDigitNumbers(dateStr, mappedPassword);
+            
+            // 显示当前日期
+            document.getElementById('currentDate').textContent = `当前日期: ${dateStr} (尾数: ${lastDigit})`;
+            
+            // 显示最终密码
+            document.getElementById('finalPassword').textContent = finalPassword;
+            
+            // 显示计算过程
+            document.getElementById('calculation').innerHTML = 
+                `${dateStr} + ${mappedPassword} = <strong>${finalPassword}</strong>`;
+            
+            // 更新表格，高亮当前行
+            updateTable(lastDigit);
+            
+            return finalPassword;
+        }
+        
+        // 更新表格并高亮当前行
+        function updateTable(currentLastDigit) {
+            const tableBody = document.getElementById('passwordTable');
+            tableBody.innerHTML = '';
+            
+            for (let i = 0; i <= 9; i++) {
+                const row = document.createElement('tr');
+                
+                // 如果是当前尾数，添加高亮类
+                if (i.toString() === currentLastDigit) {
+                    row.className = 'current-row';
+                }
+                
+                row.innerHTML = `
+                    <td>${i}</td>
+                    <td>${passwordMap[i]}</td>
+                `;
+                
+                tableBody.appendChild(row);
+            }
+        }
+        
+        // 复制密码到剪贴板
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                // 临时更改按钮文本
+                const copyBtn = document.getElementById('copyBtn');
+                const originalHTML = copyBtn.innerHTML;
+                copyBtn.innerHTML = '<i class="fas fa-check"></i> 已复制';
+                copyBtn.style.backgroundColor = '#28a745';
+                
+                setTimeout(() => {
+                    copyBtn.innerHTML = originalHTML;
+                    copyBtn.style.backgroundColor = '';
+                }, 2000);
+            }).catch(err => {
+                console.error('复制失败: ', err);
+                alert('复制失败，请手动选择密码文本进行复制。');
+            });
+        }
+        
+        // 初始化页面
+        document.addEventListener('DOMContentLoaded', function() {
+            // 生成密码
+            const password = generatePassword();
+            
+            // 添加复制按钮事件
+            document.getElementById('copyBtn').addEventListener('click', function() {
+                copyToClipboard(password);
+            });
+            
+            // 每30秒更新一次（以防用户页面打开到第二天）
+            setInterval(() => {
+                generatePassword();
+            }, 30000);
+        });
+    </script>
+</body>
+</html>
